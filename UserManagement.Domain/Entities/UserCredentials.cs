@@ -1,13 +1,13 @@
 using UserManagement.Common;
 using UserManagement.Domain.ValueObjects;
 
-namespace UserManagement.Domain;
+namespace UserManagement.Domain.Entities;
 
 public class UserCredentials : Entity
 {
     public Password Password { get; }
 
-    public UserCredentials(Auid id, Password password) : base(id)
+    public UserCredentials(Password password)
     {
         Password = password;
     }

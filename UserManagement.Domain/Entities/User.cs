@@ -1,9 +1,9 @@
 using UserManagement.Common;
 using UserManagement.Domain.ValueObjects;
 
-namespace UserManagement.Domain;
+namespace UserManagement.Domain.Entities;
 
-public class User : Entity
+public sealed class User : Entity
 {
     public Email Email { get; }
     public Username Username { get; }
@@ -22,7 +22,8 @@ public class User : Entity
         UpdatedAt = new DateTime();
     }
 
-    public User(Auid id, Email email, Username username, FirstName firstName, LastName lastName, DateTime createdAt, DateTime updatedAt) : base(id)
+    public User(long id, Email email, Username username, FirstName firstName, LastName lastName, DateTime createdAt,
+        DateTime updatedAt) : base(id)
     {
         Email = email;
         Username = username;

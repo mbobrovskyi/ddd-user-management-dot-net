@@ -2,14 +2,14 @@ namespace UserManagement.Common;
 
 public abstract class Entity
 {
-    public ValueObject Id { get; }
+    public long Id { get; }
 
     protected Entity()
     {
-        Id = Auid.Empty;
+        Id = default;
     }
 
-    protected Entity(ValueObject id)
+    protected Entity(long id)
     {
         Id = id;
     }
@@ -18,7 +18,7 @@ public abstract class Entity
     {
         if (obj is not Entity other)
             return false;
-
+        
         if (ReferenceEquals(this, other))
             return true;
 
@@ -46,6 +46,6 @@ public abstract class Entity
 
     public override int GetHashCode()
     {
-        return Id.GetHashCode();
+        return (GetType().ToString() + Id).GetHashCode();
     }
 }
