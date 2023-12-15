@@ -1,4 +1,6 @@
-using UserManagement.Common;
+using Common.Domain;
+using FluentResults;
+using UserManagement.Domain.Aggregates;
 
 namespace UserManagement.Domain.ValueObjects;
 
@@ -14,5 +16,10 @@ public class Username : ValueObject
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
+    }
+    
+    public static Result<Username> Create(string value)
+    {
+        return new Username(value);
     }
 }

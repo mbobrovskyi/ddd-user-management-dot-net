@@ -1,4 +1,5 @@
-using UserManagement.Common;
+using Common.Domain;
+using FluentResults;
 
 namespace UserManagement.Domain.ValueObjects;
 
@@ -14,5 +15,10 @@ public class LastName : ValueObject
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
+    }
+    
+    public static Result<LastName> Create(string value)
+    {
+        return new LastName(value);
     }
 }

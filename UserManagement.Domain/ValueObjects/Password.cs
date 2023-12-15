@@ -1,4 +1,5 @@
-using UserManagement.Common;
+using Common.Domain;
+using FluentResults;
 
 namespace UserManagement.Domain.ValueObjects;
 
@@ -16,7 +17,7 @@ public class Password : ValueObject
         yield return Value;
     }
 
-    public Password Create(string value)
+    public static Result<Password> Create(string value)
     {
         return new Password(value);
     }

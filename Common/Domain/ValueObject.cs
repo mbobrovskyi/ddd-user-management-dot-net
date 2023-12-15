@@ -1,4 +1,4 @@
-namespace UserManagement.Common;
+namespace Common.Domain;
 
 public abstract class ValueObject
 {

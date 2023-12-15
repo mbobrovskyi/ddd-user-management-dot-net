@@ -1,17 +1,17 @@
-namespace UserManagement.Common;
+namespace Common.Domain;
 
 public abstract class Entity
 {
-    public long Id { get; }
+    public long Id { get; protected set; }
 
     protected Entity()
     {
-        Id = default;
+        Id = 0;
     }
-
-    protected Entity(long id)
+    
+    protected Entity(long? id)
     {
-        Id = id;
+        Id = id ?? 0;
     }
 
     public override bool Equals(object? obj)
