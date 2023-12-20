@@ -5,5 +5,6 @@ namespace UserManagement.Domain.Repositories;
 
 public interface IUserCredentialsRepository
 {
-    UserCredentials GetByEmailOrUsername(string emailOrUsername);
+    UserCredentials? GetByEmail(Email email);
+    UserCredentials Save(UserCredentials userCredentials);
 }

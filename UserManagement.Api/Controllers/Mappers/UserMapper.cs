@@ -1,4 +1,6 @@
 using System.Globalization;
+using Common.Common;
+using Common.Domain;
 using UserManagement.Controllers.DataContracts;
 using UserManagement.Domain.Aggregates;
 
@@ -8,16 +10,14 @@ public static class UserMapper
 {
     public static UserDto UserToResponse(User user)
     {
-        var dto = new UserDto
+        return new UserDto
         {
             Id = user.Id,
             Email = user.Email.Value,
-            Username = user.Username.Value,
             FirstName = user.FirstName.Value,
             LastName = user.LastName.Value,
-            CreatedAt = user.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
-            UpdatedAt = user.UpdatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)
+            CreatedAt = user.CreatedAt.ToString(DateTimeFormats.IsoString, CultureInfo.InvariantCulture),
+            UpdatedAt = user.UpdatedAt.ToString(DateTimeFormats.IsoString, CultureInfo.InvariantCulture)
         };
-        return dto;
     }
 }

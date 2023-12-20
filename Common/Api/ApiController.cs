@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Common.Api;
 
+[Produces("application/json")]
 [ApiController]
-public class BaseController : ControllerBase
+public class ApiController : ControllerBase
 {
-    
 }

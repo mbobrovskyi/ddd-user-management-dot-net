@@ -7,23 +7,22 @@ namespace UserManagement.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
-
     public User GetById(long id)
     {
-        return _users.Single(u => u.Id == id);
+        return Users.Single(u => u.Id == id);
     }
 
-    public User GetByEmailOrUsername(string emailOrUsername)
+    public User GetByEmail(Email email)
     {
-        return _users.Single(u => u.Email.Value == emailOrUsername || u.Username.Value == emailOrUsername);
+        return Users.Single(u => u.Email.Value == email.Value);
     }
 
     public IReadOnlyList<User> GetAll()
     {
-        return _users;
+        return Users;
     }
 
-    public void Save(User user)
+    public User Save(User user)
     {
         if (user.Id == 0)
         {
@@ -31,8 +30,10 @@ public class UserRepository : IUserRepository
             SetId(user, _lastId);
         }
 
-        _users.RemoveAll(x => x.Id == user.Id);
-        _users.Add(user);
+        Users.RemoveAll(x => x.Id == user.Id);
+        Users.Add(user);
+
+        return user;
     }
 
     private static void SetId(Entity entity, long id)
@@ -40,30 +41,28 @@ public class UserRepository : IUserRepository
         entity.GetType().GetProperty(nameof(Entity.Id))?.SetValue(entity, id);
     }
 
-    private static User Alice = new User(
+    private static readonly User Alice = new(
+        1,
         Email.Create("alice@mail.com").Value,
-        Username.Create("alice").Value,
         FirstName.Create("Alice").Value,
         LastName.Create("Alison").Value,
         DateTime.Now,
-        DateTime.Now,
-        1
+        DateTime.Now
     );
     
-    private static User Bob = new User(
+    private static readonly User Bob = new(
+        2,
         Email.Create("bob@mail.com").Value,
-        Username.Create("bob").Value,
         FirstName.Create("Bob").Value,
         LastName.Create("Bobson").Value,
         DateTime.Now, 
-        DateTime.Now,
-        2
+        DateTime.Now
     );
     
-    private static readonly List<User> _users = new List<User>
+    private static readonly List<User> Users = new()
     {
         Alice, Bob
     };
     
-    private static long _lastId = _users.Max(u => u.Id);
+    private static long _lastId = Users.Max(u => u.Id);
 }

@@ -1,36 +1,53 @@
 using Common.Api;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Controllers.DataContracts;
-using UserManagement.Domain.Services;
+using UserManagement.Domain.Aggregates;
+using UserManagement.Domain.Repositories;
+using UserManagement.Domain.ValueObjects;
 
 namespace UserManagement.Controllers;
 
 [Route("/auth")]
-public class AuthController : BaseController
+public class AuthController : ApiController
 {
-    private IAuthService _authService; 
+    private IUserRepository _userRepository;
+    private IUserCredentialsRepository _userCredentialsRepository;
     
-    public AuthController(IAuthService authService)
+    public AuthController(IUserRepository userRepository, IUserCredentialsRepository userCredentialsRepository)
     {
-    _authService = authService;
+        _userRepository = userRepository;
+        _userCredentialsRepository = userCredentialsRepository;
     }
     
+    [ProducesResponseType(typeof(TokenDto), StatusCodes.Status200OK)]
     [HttpPost("sign-in")]
-    public IActionResult SignIn([FromBody] SignInRequest signInRequest)
+    public IActionResult SignIn([FromBody] SignInRequest request)
     {
+        if (_userCredentialsRepository.GetByEmail(Email.Create(request.Email).Value) == null)
+        {
+            return Unauthorized();
+        }
+        
         return Ok();
     }
     
+    [ProducesResponseType(typeof(TokenDto), StatusCodes.Status200OK)]
     [HttpPost("sign-up")]
     public IActionResult SignUp([FromBody] SignUpRequest signUpRequest)
     {
+        var user = new User(
+            Email.Create(signUpRequest.Email).Value,
+            FirstName.Create(signUpRequest.FirstName).Value,
+            LastName.Create(signUpRequest.LastName).Value);
+        _userRepository.Save(user);
+        
         return Ok();
     }
     
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpPost("sign-out")]
     public IActionResult SignOut()
     {
-        _authService.SignOut();
         return Ok();
     }
 }

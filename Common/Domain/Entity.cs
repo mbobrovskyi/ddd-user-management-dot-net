@@ -9,9 +9,9 @@ public abstract class Entity
         Id = 0;
     }
     
-    protected Entity(long? id)
+    protected Entity(long id)
     {
-        Id = id ?? 0;
+        Id = id;
     }
 
     public override bool Equals(object? obj)

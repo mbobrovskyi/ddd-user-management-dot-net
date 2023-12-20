@@ -6,33 +6,32 @@ namespace UserManagement.Infrastructure.Repositories;
 
 public class UserCredentialsRepository : IUserCredentialsRepository
 {
-    public UserCredentials GetByEmailOrUsername(string emailOrUsername)
+    public UserCredentials GetByEmail(Email email)
     {
-        return _userCredentials.Single(u => u.Email.Value == emailOrUsername || u.Username.Value == emailOrUsername);
+        return UserCredentials.Single(u => u.Email.Value == email.Value);
     }
 
-    public void Save(UserCredentials userCredentials)
+    public UserCredentials Save(UserCredentials userCredentials)
     {
-        _userCredentials.RemoveAll(x => x.Id == userCredentials.Id);
-        _userCredentials.Add(userCredentials);
+        UserCredentials.RemoveAll(x => x.Id == userCredentials.Id);
+        UserCredentials.Add(userCredentials);
+        return userCredentials;
     }
     
-    private static UserCredentials Alice = new(
+    private static readonly UserCredentials AliceCredentials = new(
         1,
         Email.Create("alice@mail.com").Value,
-        Username.Create("alice").Value,
-        Password.Create("Password").Value
+        HashPassword.Create("Password").Value
     );
     
-    private static UserCredentials Bob = new(
+    private static readonly UserCredentials BobCredentials = new(
         2,
-        Email.Create("bob@mail.com").Value,
-        Username.Create("bob").Value,
-        Password.Create("Password").Value
+        Email.Create("alice@mail.com").Value,
+        HashPassword.Create("Password").Value
     );
     
-    private static readonly List<UserCredentials> _userCredentials = new()
+    private static readonly List<UserCredentials> UserCredentials = new()
     {
-        Alice, Bob
+        AliceCredentials, BobCredentials
     };
 }

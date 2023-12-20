@@ -6,13 +6,11 @@ namespace UserManagement.Domain.Aggregates;
 public class UserCredentials : AggregateRoot
 {
     public Email Email { get; }
-    public Username Username { get; }
-    public Password Password { get; }
-    
-    public UserCredentials(long id, Email email, Username username, Password password) : base(id)
+    public HashPassword HashPassword { get; }
+
+    public UserCredentials(long id, Email email, HashPassword hashPassword) : base(id)
     {
         Email = email;
-        Username = username;
-        Password = password;
+        HashPassword = hashPassword;
     }
 }
